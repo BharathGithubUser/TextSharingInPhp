@@ -48,14 +48,25 @@
 
 	    });
 	</script>
+	<style type="text/css">
+		.text_component {
+			overflow-y: scroll;
+			max-height: 300px;
+			background-color: #f4ac04;
+			border-radius: 5px;
+			border: 1px solid #000;
+		}
+	</style>
 </head>
-<body>
+<body style="margin: 20px">
 	<h1> Enter Your Text here...!</h1><br>
 	<form id = "text_data">
-		<textarea name = "textarea" required></textarea> <br>
+		<textarea name = "textarea" style = "width: 100%" required></textarea> <br>
 		<button type = "submit" id = "submit_data">Share</button>
 	</form>
 	<h1> Text Shared Until Now...</h1><br>
-	<div id = "contents"></div>
+	<div class="text_component">
+		<div id = "contents" style="margin: 10px"></div>
+	</div>
 </body>
 </html>
