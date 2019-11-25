@@ -1,7 +1,9 @@
 <!DOCTYPE html>
+<?php include("dbconnect.php"); ?>
 <html>
 <head>
 	<title>Share URL</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
@@ -12,11 +14,18 @@
   			function getAllTexts() {
 		        $.ajax({
 		        	type: "GET",
-		        	url: "http://10.10.0.155/share/retrive_texts.php",
+		        	url:"<?php echo $BASE_URL;?>/share/retrive_texts.php",
 		        	success: function(result) {
-		        		if(result.resultCode == "Success") { 
+		        		if(result.resultCode == "Success") {
 		        			for(var i = 0; i < result.records.length; i++) {
-			        				$('#contents').append("<p>" +result.records[i].text+ "<p>");
+		        				if (i == 0) {
+		        					$('#contents').append("<table class = 'table table-striped'>")
+		        				}
+		        				$('#contents').append("<tr><td><p>" +result.records[i].text+ "</p></td></tr>");
+		        				if (i == result.records.length - 1) {
+		        					$('#contents').append("</table>")
+		        				}
+
 							}
 		        		} else {
 		            		$("#contents").html("<p>No Data Available Currently!</p>");
@@ -31,13 +40,13 @@
         	$("#submit_data").click(function() {
 	        	$.ajax({
 		        	type: "POST",
-		        	url: "http://10.10.0.155/share/storeText.php",
+		        	url: "<?php echo $BASE_URL;?>/share/storeText.php",
 		        	data: $("#text_data").serialize(),
 		        	success: function(result) {
 		        		console.log(result.resultCode);
-		        		console.log(result.record_inserted);	
-						if(result.resultCode == "Success") { 
-			        		$('#contents').prepend("<p>" +result.record_inserted+ "<p>");
+		        		console.log(result.record_inserted);
+						if(result.resultCode == "Success") {
+			        		$('#contents').prepend("<tr><td><p>" +result.record_inserted+ "</td></p></tr>");
 			        	}
 		        	},
 		        	error: function(error) {
